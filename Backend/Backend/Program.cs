@@ -15,6 +15,7 @@ namespace Backend
         private async Task InitAsync()
         {
             AutoResetEvent autoEvent = new AutoResetEvent(false);
+            p = this;
             R = RethinkDB.R;
             conn = await R.Connection().ConnectAsync();
             LaunchServer(autoEvent);
@@ -38,7 +39,15 @@ namespace Backend
             };
         }
 
+        /// Get a device in the database given it ID
+        public string LoadDeviceFromId(string id)
+        {
+            return null;
+        }
+
         private RethinkDB R;
         private Connection conn;
+
+        public static Program p;
     }
 }
