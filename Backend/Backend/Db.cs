@@ -44,6 +44,18 @@ namespace Backend
             }
         }
 
+        public bool AuthentificationCorrect(string username, string password)
+        {
+            if (!R.Db(dbName).Table("Users").HasFields(username).IsEmpty().Run<bool>(conn))
+            {
+                Cursor<string> foundPwd = R.Db(dbName).Table("Users").GetField(username).Run<string>(conn);
+                foundPwd.MoveNext();
+                if (foundPwd.Current == password)
+                    return true;
+            }
+            return false;
+        }
+
         private RethinkDB R;
         private Connection conn;
 
