@@ -1,6 +1,4 @@
 ﻿using Nancy.Hosting.Self;
-using RethinkDb.Driver;
-using RethinkDb.Driver.Net;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +14,8 @@ namespace Backend
         {
             AutoResetEvent autoEvent = new AutoResetEvent(false);
             p = this;
-            R = RethinkDB.R;
-            conn = await R.Connection().ConnectAsync();
+            db = new Db();
+            await db.InitAsync();
             LaunchServer(autoEvent);
             autoEvent.WaitOne();
         }
@@ -39,15 +37,7 @@ namespace Backend
             };
         }
 
-        /// Get a device in the database given it ID
-        public string LoadDeviceFromId(string id)
-        {
-            return null;
-        }
-
-        private RethinkDB R;
-        private Connection conn;
-
         public static Program p;
+        public Db db { private set; get; }
     }
 }

@@ -2,10 +2,10 @@
 {
     public abstract class ADevice
     {
-        public ADevice(string id)
+        public ADevice(string id, bool isOn)
         {
             _id = id;
-            Program.p.LoadDeviceFromId(id);
+            _isOn = isOn;
         }
 
         private bool _isOn;
