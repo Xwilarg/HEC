@@ -3,7 +3,8 @@ function login() {
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
             if (this.status == 200) {
-                console.log(this.responseText);
+                sessionStorage['token'] = JSON.parse(this.responseText).userToken;
+                window.location.replace("http://hec.zirk.eu/dashboard.html");
             } else {
                 var now     = new Date(); 
                 var hour    = now.getHours();
@@ -21,5 +22,5 @@ function login() {
     });
     xhr.open("POST", "http://93.118.34.39:5151/auth");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("username=" + document.getElementById("username").value + "&password=" + document.getElementById("password").value);
+    xhr.send("username=" + document.getElementById("username").value + "&password=" + CryptoJS.SHA1(document.getElementById("password").value));
 }
