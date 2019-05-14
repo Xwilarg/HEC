@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Net;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Backend
@@ -54,6 +56,31 @@ namespace Backend
                     return true;
             }
             return false;
+        }
+
+        public Response.Device[] GetDevices()
+        {
+            List<Response.Device> allDevices = new List<Response.Device>();
+            Cursor<object> json = R.Db(dbName).Table("Devices").Run(conn);
+            dynamic finalJson = "";
+            foreach (dynamic e in json) // Fuck this
+            {
+                finalJson = e;
+                break;
+            }
+            foreach (dynamic e in finalJson)
+            {
+                if (e.ToString().StartsWith("\"id\""))
+                    continue;
+                dynamic j2 = JsonConvert.DeserializeObject(Regex.Match(e.ToString(), "\"[^\"]+\": ({[^}]+})").Groups[1].Value);
+                allDevices.Add(new Response.Device()
+                {
+                    IsOn = j2.isOn,
+                    Name = j2.name,
+                    Power = j2.power
+                });
+            }
+            return allDevices.ToArray();
         }
 
         private RethinkDB R;
