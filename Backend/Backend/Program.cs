@@ -1,5 +1,6 @@
 ﻿using Nancy.Hosting.Self;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace Backend
             p = this;
             db = new Db();
             await db.InitAsync();
+            tokens = new Dictionary<string, string>();
+            rand = new Random();
             LaunchServer(autoEvent);
             autoEvent.WaitOne();
         }
@@ -26,7 +29,7 @@ namespace Backend
             {
                 UrlReservations = new UrlReservations() { CreateAutomatically = true }
             };
-            NancyHost host = new NancyHost(config, new Uri("http://localhost:8081"));
+            NancyHost host = new NancyHost(config, new Uri("http://localhost:5151"));
             host.Start();
             Console.WriteLine("Host started... Do ^C to exit.");
             Console.CancelKeyPress += (sender, e) =>
@@ -39,5 +42,23 @@ namespace Backend
 
         public static Program p;
         public Db db { private set; get; }
+        public Random rand { private set; get; }
+
+        private Dictionary<string, string> tokens;
+
+        public void AddToken(string username, string token)
+        {
+            tokens.Add(username, token);
+        }
+
+        public bool ContainsToken(string token)
+            => tokens.ContainsValue(token);
+
+        public string GetToken(string username)
+        {
+            if (tokens.ContainsKey(username))
+                return tokens[username];
+            return null;
+        }
     }
 }

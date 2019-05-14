@@ -22,13 +22,31 @@ namespace Backend.Endpoint
                     {
                         Message = "Missing required arguments: username, password"
                     }, HttpStatusCode.BadRequest);
-                if (Program.p.db.AuthentificationCorrect(username, password))
-                    return Response.AsJson(new Response.Empty(), HttpStatusCode.NoContent);
-                return Response.AsJson(new Response.Error()
+                if (!Program.p.db.AuthentificationCorrect(username, password))
+                    return Response.AsJson(new Response.Error()
+                    {
+                        Message = "Username and password doesn't match"
+                    }, HttpStatusCode.Unauthorized);
+                string token = Program.p.GetToken(username);
+                if (token == null)
                 {
-                    Message = "Username and password doesn't match"
-                }, HttpStatusCode.Unauthorized);
+                    token = GenerateToken();
+                    Program.p.AddToken(username, token);
+                }
+                return Response.AsJson(new Response.Token()
+                {
+                    UserToken = token
+                });
             });
+        }
+
+        private string GenerateToken()
+        {
+            string characters = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN0123456789";
+            string token = "";
+            for (int i = 0; i < 30; i++)
+                token += characters[Program.p.rand.Next(0, characters.Length)];
+            return token;
         }
     }
 }

@@ -66,14 +66,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="Device\ADevice.cs" />
     <Compile Include="Endpoint\Auth.cs" />
     <Compile Include="Endpoint\Base.cs" />
+    <Compile Include="Endpoint\Token.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Empty.cs" />
     <Compile Include="Response\Error.cs" />
+    <Compile Include="Response\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
