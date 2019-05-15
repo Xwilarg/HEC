@@ -1,3 +1,15 @@
+let xhr = new XMLHttpRequest();
+xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === 4) {
+        if (this.status == 204) {
+            window.location.replace("http://hec.zirk.eu/dashboard.html");
+        }
+    }
+});
+xhr.open("POST", "http://93.118.34.39:5151/token");
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhr.send("token=" + sessionStorage['token']);
+
 function login() {
     let xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
