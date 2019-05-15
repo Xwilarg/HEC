@@ -65,24 +65,28 @@
     padding-bottom: 10px;
     width: 20%;
     padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 20px solid #eee;
+}
+
+#lowerPart nav {
+    background-color: #eee;
+    padding-left: 10px;
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #contentLine {
     background-color: #fff;
 }
 
-#upLeft {
-    border-top-left-radius: 25px;
+#left {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
-#downLeft {
-    border-bottom-left-radius: 25px;
-}
-
-#upRight {
-    border-top-right-radius: 25px;
-}
-
-#downRight {
-    border-bottom-right-radius: 25px;
+#right {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
