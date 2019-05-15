@@ -46,7 +46,7 @@ namespace Backend
         public Random rand { private set; get; }
 
         private Dictionary<string, string> tokens;
-        private Device.DeviceManager manager;
+        public Device.DeviceManager manager { private set; get; }
 
         public void AddToken(string username, string token)
         {

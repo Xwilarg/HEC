@@ -29,6 +29,14 @@ namespace Backend.Device
             return true;
         }
 
+        public Device GetDevice(string id)
+        {
+            Device d = devices.First(x => x._id == id);
+            if (d == null)
+                return null;
+            return d;
+        }
+
         private Thread thread;
         private Device[] devices;
     }

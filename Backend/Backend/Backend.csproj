@@ -73,6 +73,7 @@
     <Compile Include="Endpoint\Auth.cs" />
     <Compile Include="Endpoint\Base.cs" />
     <Compile Include="Endpoint\Devices.cs" />
+    <Compile Include="Endpoint\Switch.cs" />
     <Compile Include="Endpoint\Token.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
