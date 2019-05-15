@@ -28,8 +28,61 @@
 #mainGraphs table {
     width: 100%;
     margin-top: 200px;
+    table-layout: fixed;
 }
 
 #mainGraphs td {
-    width: 33.33%;
+    width: 33%;
+}
+
+#mainGraphs nav {
+    width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#lowerPart {
+    margin-top: 50px;
+    margin-left: -8px;
+    margin-right: -8px;
+    background-color: #eee;
+}
+
+#lowerPart table {
+    width: 100%;
+    table-layout: fixed;
+    margin-left: 20px;
+    border-collapse: collapse;
+}
+
+#lowerPart th {
+    padding-bottom: 20px;
+}
+
+#lowerPart td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 20%;
+    padding-left: 10px;
+}
+
+#contentLine {
+    background-color: #fff;
+}
+
+#upLeft {
+    border-top-left-radius: 25px;
+}
+
+#downLeft {
+    border-bottom-left-radius: 25px;
+}
+
+#upRight {
+    border-top-right-radius: 25px;
+}
+
+#downRight {
+    border-bottom-right-radius: 25px;
 }
