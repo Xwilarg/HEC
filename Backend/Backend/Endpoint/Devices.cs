@@ -28,7 +28,7 @@ namespace Backend.Endpoint
                     }, HttpStatusCode.Unauthorized);
                 return Response.AsJson(new Response.Devices()
                 {
-                    AllDevices = Program.p.db.GetDevices()
+                    AllDevices = Program.p.db.GetDevicesResponse()
                 });
             });
         }

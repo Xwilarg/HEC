@@ -60,12 +60,33 @@ namespace Backend
             return false;
         }
 
-        public Response.Device[] GetDevices()
+        public Device.Device[] GetDevices()
+        {
+            List<Device.Device> allDevices = new List<Device.Device>();
+            Cursor<object> json = R.Db(dbName).Table("Devices").Run(conn);
+            dynamic finalJson = "";
+            foreach (dynamic e in json) // Fuck this
+            {
+                finalJson = e;
+                break;
+            }
+            foreach (dynamic e in finalJson)
+            {
+                if (e.ToString().StartsWith("\"id\""))
+                    continue;
+                Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({[^}]+})");
+                dynamic j2 = JsonConvert.DeserializeObject(m.Groups[2].Value);
+                allDevices.Add(new Device.Device(m.Groups[1].Value, j2.isOn, j2.power, j2.type, j2.name));
+            }
+            return allDevices.ToArray();
+        }
+
+        public Response.Device[] GetDevicesResponse()
         {
             List<Response.Device> allDevices = new List<Response.Device>();
             Cursor<object> json = R.Db(dbName).Table("Devices").Run(conn);
             dynamic finalJson = "";
-            foreach (dynamic e in json) // Fuck this
+            foreach (dynamic e in json)
             {
                 finalJson = e;
                 break;
@@ -84,6 +105,11 @@ namespace Backend
                 });
             }
             return allDevices.ToArray();
+        }
+
+        public void UpdateDevice(Device.Device device)
+        {
+            R.Db(dbName).Table("Devices").Update(R.HashMap(device._id, device.ToJson())).Run(conn);
         }
 
         private RethinkDB R;

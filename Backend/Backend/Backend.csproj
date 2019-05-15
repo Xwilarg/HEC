@@ -68,7 +68,8 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Db.cs" />
-    <Compile Include="Device\ADevice.cs" />
+    <Compile Include="Device\Device.cs" />
+    <Compile Include="Device\DeviceManager.cs" />
     <Compile Include="Endpoint\Auth.cs" />
     <Compile Include="Endpoint\Base.cs" />
     <Compile Include="Endpoint\Devices.cs" />

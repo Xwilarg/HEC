@@ -19,6 +19,7 @@ namespace Backend
             await db.InitAsync();
             tokens = new Dictionary<string, string>();
             rand = new Random();
+            manager = new Device.DeviceManager();
             LaunchServer(autoEvent);
             autoEvent.WaitOne();
         }
@@ -45,6 +46,7 @@ namespace Backend
         public Random rand { private set; get; }
 
         private Dictionary<string, string> tokens;
+        private Device.DeviceManager manager;
 
         public void AddToken(string username, string token)
         {
