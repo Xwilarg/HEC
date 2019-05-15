@@ -76,9 +76,9 @@ namespace Backend
             {
                 if (e.ToString().StartsWith("\"id\""))
                     continue;
-                Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({[^}]+})");
+                Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({(?s).*)");
                 dynamic j2 = JsonConvert.DeserializeObject(m.Groups[2].Value);
-                allDevices.Add(new Device.Device(m.Groups[1].Value, j2.isOn, j2.power, j2.type, j2.name, j2.roomName));
+                allDevices.Add(new Device.Device((string)m.Groups[1].Value, (bool)j2.isOn, (int)j2.power, (string)j2.type, (string)j2.name, (string)j2.roomName));
             }
             return allDevices.ToArray();
         }
@@ -97,7 +97,7 @@ namespace Backend
             {
                 if (e.ToString().StartsWith("\"id\""))
                     continue;
-                dynamic j2 = JsonConvert.DeserializeObject(Regex.Match(e.ToString(), "\"[^\"]+\": ({[^}]+})").Groups[1].Value);
+                dynamic j2 = JsonConvert.DeserializeObject(Regex.Match(e.ToString(), "\"[^\"]+\": ({(?s).*)").Groups[1].Value);
                 allDevices.Add(new Response.Device()
                 {
                     IsOn = j2.isOn,
