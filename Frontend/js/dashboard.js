@@ -2,7 +2,11 @@ let xhr = new XMLHttpRequest();
 xhr.addEventListener("readystatechange", function () {
     if (this.readyState === 4) {
         if (this.status == 200) {
-            console.log(this.responseText);
+            let finalHtml = "";
+            JSON.parse(this.responseText).allDevices.forEach(function(elem) {
+                console.log(elem);
+            });
+            document.getElementById("tableContent").innerHTML = "";
         } else {
             window.location.replace("http://hec.zirk.eu/");
         }
