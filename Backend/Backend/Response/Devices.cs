@@ -12,6 +12,9 @@ namespace Backend.Response
 
         [JsonProperty]
         public int Power;
+
+        [JsonProperty]
+        public string Type;
     }
 
     public class Devices

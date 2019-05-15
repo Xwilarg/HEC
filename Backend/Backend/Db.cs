@@ -25,6 +25,8 @@ namespace Backend
                 R.Db(dbName).TableCreate("Devices").Run(conn);
                 await R.Db(dbName).Table("Devices").Insert(R.HashMap("0", jsonDevice1)
                     .With("1", jsonDevice2)
+                    .With("2", jsonDevice3)
+                    .With("3", jsonDevice4)
                     ).RunAsync(conn);
             }
             if (!await R.Db(dbName).TableList().Contains("Users").RunAsync<bool>(conn))
@@ -77,7 +79,8 @@ namespace Backend
                 {
                     IsOn = j2.isOn,
                     Name = j2.name,
-                    Power = j2.power
+                    Power = j2.power,
+                    Type = j2.type
                 });
             }
             return allDevices.ToArray();
@@ -88,7 +91,9 @@ namespace Backend
 
         private readonly static string dbName = "HEC";
         // We create sample devices for the demo
-        private readonly static object jsonDevice1 = JsonConvert.DeserializeObject("{\"name\":\"Lamp\",\"isOn\":false,\"power\":14}");
-        private readonly static object jsonDevice2 = JsonConvert.DeserializeObject("{\"name\":\"Lamp\",\"isOn\":true,\"power\":20}");
+        private readonly static object jsonDevice1 = JsonConvert.DeserializeObject("{\"type\":\"lighting\",\"name\":\"Lamp\",\"isOn\":false,\"power\":14,\"consumption\":{}}");
+        private readonly static object jsonDevice2 = JsonConvert.DeserializeObject("{\"type\":\"lighting\",\"name\":\"Lamp\",\"isOn\":true,\"power\":20,\"consumption\":{}}");
+        private readonly static object jsonDevice3 = JsonConvert.DeserializeObject("{\"type\":\"it\",\"name\":\"Computer\",\"isOn\":true,\"power\":40,\"consumption\":{}}");
+        private readonly static object jsonDevice4 = JsonConvert.DeserializeObject("{\"type\":\"heating\",\"name\":\"Heater\",\"isOn\":true,\"power\":30,\"consumption\":{}}");
     }
 }
