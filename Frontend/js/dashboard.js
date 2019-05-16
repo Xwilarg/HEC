@@ -1,10 +1,15 @@
+var json;
+var dict = {};
+var baseInner;
+
 let xhr = new XMLHttpRequest();
 xhr.addEventListener("readystatechange", function () {
     if (this.readyState === 4) {
         if (this.status == 200) {
+            baseInner = document.getElementById('tableDetails').innerHTML;
             let finalHtml = "";
-            let dict = {};
-            JSON.parse(this.responseText).allDevices.forEach(function(elem) {
+            json = JSON.parse(this.responseText);
+            json.allDevices.forEach(function(elem) {
                 if (!(elem.roomName in dict)) {
                     dict[elem.roomName] = elem.isOn;
                 }
@@ -14,7 +19,7 @@ xhr.addEventListener("readystatechange", function () {
             });
             for (var key in dict) {
                 finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
-                + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td></tr>';
+                    + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
             }
             document.getElementById("tableContent").innerHTML += finalHtml;
         } else {
@@ -28,6 +33,19 @@ xhr.send("token=" + sessionStorage['token']);
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawGraphs);
+
+function getDetails(roomName) {
+    let finalHtml = "";
+    json.allDevices.forEach(function(elem) {
+        if (elem.roomName == roomName) {
+            finalHtml += '<tr id="contentLine"><td id="left"><nav>' + elem.type + '</nav></td><td><nav>' + elem.name
+                + '</nav></td><td><nav>' + (elem.isOn ? "Active" : "Inactive")
+                + '</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="">Action</button></td></tr>';
+        }
+    });
+    document.getElementById("tableDetails").innerHTML = baseInner + finalHtml;
+    window.scrollTo(0, document.body.scrollHeight);
+}
 
 function drawGraphs() {
     let options = {
