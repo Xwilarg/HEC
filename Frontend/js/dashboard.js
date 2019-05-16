@@ -3,10 +3,20 @@ xhr.addEventListener("readystatechange", function () {
     if (this.readyState === 4) {
         if (this.status == 200) {
             let finalHtml = "";
+            let dict = {};
             JSON.parse(this.responseText).allDevices.forEach(function(elem) {
-                console.log(elem);
+                if (!(elem.roomName in dict)) {
+                    dict[elem.roomName] = elem.isOn;
+                }
+                else if (elem.isOn) {
+                    dict[elem.roomName] = true;
+                }
             });
-            document.getElementById("tableContent").innerHTML = "";
+            for (var key in dict) {
+                finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
+                + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td></tr>';
+            }
+            document.getElementById("tableContent").innerHTML += finalHtml;
         } else {
             window.location.replace("http://hec.zirk.eu/");
         }
