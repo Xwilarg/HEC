@@ -21,7 +21,7 @@ namespace Backend.Device
 
         public object ToJson()
         {
-            return JsonConvert.DeserializeObject("{\"roomName\":\"" + _roomName + "\",\"type\":\"" + _type + "\",\"name\":\"" + _name + "\",\"isOn\":" + _isOn + ",\"power\":" + _power + ",\"consumption\":{}}");
+            return JsonConvert.DeserializeObject("{\"roomName\":\"" + _roomName + "\",\"type\":\"" + _type + "\",\"name\":\"" + _name + "\",\"isOn\":" + _isOn.ToString().ToLower() + ",\"power\":" + _power + ",\"consumption\":{}}");
         }
 
         private bool _isOn;

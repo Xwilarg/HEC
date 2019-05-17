@@ -13,7 +13,6 @@ function update() {
                 }
                 let finalHtml = "";
                 json = JSON.parse(this.responseText);
-                console.log(json);
                 json.allDevices.forEach(function(elem) {
                     if (!(elem.roomName in dict)) {
                         dict[elem.roomName] = elem.isOn;
