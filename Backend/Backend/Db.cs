@@ -97,14 +97,16 @@ namespace Backend
             {
                 if (e.ToString().StartsWith("\"id\""))
                     continue;
-                dynamic j2 = JsonConvert.DeserializeObject(Regex.Match(e.ToString(), "\"[^\"]+\": ({(?s).*)").Groups[1].Value);
+                Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({(?s).*)");
+                dynamic j2 = JsonConvert.DeserializeObject(m.Groups[2].Value);
                 allDevices.Add(new Response.Device()
                 {
                     IsOn = j2.isOn,
                     Name = j2.name,
                     Power = j2.power,
                     Type = j2.type,
-                    RoomName = j2.roomName
+                    RoomName = j2.roomName,
+                    Id = m.Groups[1].Value
                 });
             }
             return allDevices.ToArray();

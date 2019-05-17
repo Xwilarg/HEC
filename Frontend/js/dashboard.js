@@ -1,50 +1,77 @@
 var json;
 var dict = {};
 var baseInner;
+var current = null;
 
-let xhr = new XMLHttpRequest();
-xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === 4) {
-        if (this.status == 200) {
-            baseInner = document.getElementById('tableDetails').innerHTML;
-            let finalHtml = "";
-            json = JSON.parse(this.responseText);
-            json.allDevices.forEach(function(elem) {
-                if (!(elem.roomName in dict)) {
-                    dict[elem.roomName] = elem.isOn;
+function update() {
+    let xhr = new XMLHttpRequest();
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            if (this.status == 200) {
+                baseInner = document.getElementById('tableDetails').innerHTML;
+                let finalHtml = "";
+                json = JSON.parse(this.responseText);
+                console.log(json);
+                json.allDevices.forEach(function(elem) {
+                    if (!(elem.roomName in dict)) {
+                        dict[elem.roomName] = elem.isOn;
+                    }
+                    else if (elem.isOn) {
+                        dict[elem.roomName] = true;
+                    }
+                });
+                for (var key in dict) {
+                    finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
+                        + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
                 }
-                else if (elem.isOn) {
-                    dict[elem.roomName] = true;
-                }
-            });
-            for (var key in dict) {
-                finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
-                    + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
+                document.getElementById("tableContent").innerHTML += finalHtml;
+            } else {
+                window.location.replace("http://hec.zirk.eu/");
             }
-            document.getElementById("tableContent").innerHTML += finalHtml;
-        } else {
-            window.location.replace("http://hec.zirk.eu/");
         }
+    });
+    xhr.open("POST", "http://93.118.34.39:5151/devices");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("token=" + sessionStorage['token']);
+
+    if (current !== null) {
+        getDetails(current);
     }
-});
-xhr.open("POST", "http://93.118.34.39:5151/devices");
-xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-xhr.send("token=" + sessionStorage['token']);
+}
+
+update();
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawGraphs);
 
 function getDetails(roomName) {
+    current = roomName;
     let finalHtml = "";
     json.allDevices.forEach(function(elem) {
         if (elem.roomName == roomName) {
             finalHtml += '<tr id="contentLine"><td id="left"><nav>' + elem.type + '</nav></td><td><nav>' + elem.name
                 + '</nav></td><td><nav>' + (elem.isOn ? "Active" : "Inactive")
-                + '</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="">Action</button></td></tr>';
+                + '</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">Action</button></td></tr>';
         }
     });
     document.getElementById("tableDetails").innerHTML = baseInner + finalHtml;
     window.scrollTo(0, document.body.scrollHeight);
+}
+
+function switchState(id, nextState) {
+    let xhr = new XMLHttpRequest();
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            if (this.status == 200) {
+                update();
+            } else {
+                window.location.replace("http://hec.zirk.eu/");
+            }
+        }
+    });
+    xhr.open("POST", "http://93.118.34.39:5151/devices");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("token=" + sessionStorage['token'] + "&id=" + id + "status=" + nextState);
 }
 
 function drawGraphs() {

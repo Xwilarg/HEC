@@ -18,6 +18,9 @@ namespace Backend.Response
 
         [JsonProperty]
         public string RoomName;
+
+        [JsonProperty]
+        public string Id;
     }
 
     public class Devices
