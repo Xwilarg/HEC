@@ -1,6 +1,6 @@
 var json;
 var dict = {};
-var baseInner;
+var baseInner = null;
 var current = null;
 
 function update() {
@@ -8,7 +8,9 @@ function update() {
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
             if (this.status == 200) {
-                baseInner = document.getElementById('tableDetails').innerHTML;
+                if (baseInner === null) {
+                    baseInner = document.getElementById('tableDetails').innerHTML;
+                }
                 let finalHtml = "";
                 json = JSON.parse(this.responseText);
                 console.log(json);
@@ -62,16 +64,16 @@ function switchState(id, nextState) {
     let xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
-            if (this.status == 200) {
+            if (this.status == 204) {
                 update();
             } else {
                 window.location.replace("http://hec.zirk.eu/");
             }
         }
     });
-    xhr.open("POST", "http://93.118.34.39:5151/devices");
+    xhr.open("POST", "http://93.118.34.39:5151/switch");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("token=" + sessionStorage['token'] + "&id=" + id + "status=" + nextState);
+    xhr.send("token=" + sessionStorage['token'] + "&id=" + id + "&status=" + nextState);
 }
 
 function drawGraphs() {

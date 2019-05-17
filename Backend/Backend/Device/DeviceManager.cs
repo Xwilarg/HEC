@@ -12,6 +12,11 @@ namespace Backend.Device
             devices = Program.p.db.GetDevices();
         }
 
+        public void Update()
+        {
+            devices = Program.p.db.GetDevices();
+        }
+
         private void ConsumptionThread()
         {
             while (Thread.CurrentThread.IsAlive)
