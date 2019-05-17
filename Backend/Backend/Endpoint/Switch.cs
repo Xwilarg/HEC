@@ -41,7 +41,6 @@ namespace Backend.Endpoint
                     }, HttpStatusCode.BadRequest);
                 device.SetStatus(status == "true" ? true : false);
                 Program.p.db.UpdateDevice(device);
-                Program.p.manager.Update();
                 return Response.AsJson(new Response.Empty(), HttpStatusCode.NoContent);
             });
         }

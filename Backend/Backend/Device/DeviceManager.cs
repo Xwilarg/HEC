@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 
 namespace Backend.Device
@@ -9,11 +8,6 @@ namespace Backend.Device
         public DeviceManager()
         {
             thread = new Thread(new ThreadStart(ConsumptionThread));
-            devices = Program.p.db.GetDevices();
-        }
-
-        public void Update()
-        {
             devices = Program.p.db.GetDevices();
         }
 
