@@ -83,35 +83,6 @@ namespace Backend
             return allDevices.ToArray();
         }
 
-        public Response.Device[] GetDevicesResponse()
-        {
-            List<Response.Device> allDevices = new List<Response.Device>();
-            Cursor<object> json = R.Db(dbName).Table("Devices").Run(conn);
-            dynamic finalJson = "";
-            foreach (dynamic e in json)
-            {
-                finalJson = e;
-                break;
-            }
-            foreach (dynamic e in finalJson)
-            {
-                if (e.ToString().StartsWith("\"id\""))
-                    continue;
-                Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({(?s).*)");
-                dynamic j2 = JsonConvert.DeserializeObject(m.Groups[2].Value);
-                allDevices.Add(new Response.Device()
-                {
-                    IsOn = j2.isOn,
-                    Name = j2.name,
-                    Power = j2.power,
-                    Type = j2.type,
-                    RoomName = j2.roomName,
-                    Id = m.Groups[1].Value
-                });
-            }
-            return allDevices.ToArray();
-        }
-
         public void UpdateDevice(Device.Device device)
         {
             R.Db(dbName).Table("Devices").Update(R.HashMap(device._id, device.ToJson())).Run(conn);

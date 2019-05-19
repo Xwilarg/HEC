@@ -24,6 +24,19 @@ namespace Backend.Device
             return JsonConvert.DeserializeObject("{\"roomName\":\"" + _roomName + "\",\"type\":\"" + _type + "\",\"name\":\"" + _name + "\",\"isOn\":" + _isOn.ToString().ToLower() + ",\"power\":" + _power + ",\"consumption\":{}}");
         }
 
+        public Response.Device ToResponse()
+        {
+            return new Response.Device()
+            {
+                Id = _id,
+                IsOn = _isOn,
+                Name = _name,
+                Power = _power,
+                RoomName = _roomName,
+                Type = _type
+            };
+        }
+
         private bool _isOn;
         public string _id { private set; get; }
         private int _power;

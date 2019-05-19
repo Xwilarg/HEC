@@ -36,6 +36,14 @@ namespace Backend.Device
             return d;
         }
 
+        public Response.Device[] GetResponseDevices()
+        {
+            Response.Device[] finalDevices = new Response.Device[devices.Length];
+            for (int i = 0; i < devices.Length; i++)
+                finalDevices[i] = devices[i].ToResponse();
+            return finalDevices;
+        }
+
         private Thread thread;
         private Device[] devices;
     }
