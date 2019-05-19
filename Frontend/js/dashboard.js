@@ -30,6 +30,10 @@ function update() {
                         + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
                 }
                 document.getElementById("tableContent").innerHTML = finalHtml;
+
+                if (current !== null) {
+                    getDetails(current);
+                }
             } else {
                 window.location.replace("http://hec.zirk.eu/");
             }
@@ -38,10 +42,6 @@ function update() {
     xhr.open("POST", "http://93.118.34.39:5151/devices");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("token=" + sessionStorage['token']);
-
-    if (current !== null) {
-        getDetails(current);
-    }
 }
 
 update();
