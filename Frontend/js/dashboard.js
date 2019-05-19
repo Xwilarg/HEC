@@ -1,6 +1,7 @@
 var json;
 var dict = {};
 var baseInner = null;
+var baseContent = null;
 var current = null;
 
 function update() {
@@ -11,7 +12,11 @@ function update() {
                 if (baseInner === null) {
                     baseInner = document.getElementById('tableDetails').innerHTML;
                 }
-                let finalHtml = "";
+                if (baseContent === null) {
+                    baseContent = document.getElementById('tableContent').innerHTML;
+                    console.log(baseContent);
+                }
+                let finalHtml = baseContent;
                 json = JSON.parse(this.responseText);
                 json.allDevices.forEach(function(elem) {
                     if (!(elem.roomName in dict)) {
@@ -25,7 +30,7 @@ function update() {
                     finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
                         + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
                 }
-                document.getElementById("tableContent").innerHTML += finalHtml;
+                document.getElementById("tableContent").innerHTML = finalHtml;
             } else {
                 window.location.replace("http://hec.zirk.eu/");
             }
