@@ -1,5 +1,4 @@
 var json;
-var dict = {};
 var baseInner = null;
 var baseContent = null;
 var current = null;
@@ -17,6 +16,7 @@ function update() {
                 }
                 let finalHtml = baseContent;
                 json = JSON.parse(this.responseText);
+                let dict = {};
                 json.allDevices.forEach(function(elem) {
                     if (!(elem.roomName in dict)) {
                         dict[elem.roomName] = elem.isOn;
