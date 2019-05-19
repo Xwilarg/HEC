@@ -14,7 +14,6 @@ function update() {
                 }
                 if (baseContent === null) {
                     baseContent = document.getElementById('tableContent').innerHTML;
-                    console.log(baseContent);
                 }
                 let finalHtml = baseContent;
                 json = JSON.parse(this.responseText);
