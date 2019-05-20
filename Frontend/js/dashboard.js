@@ -17,23 +17,32 @@ function update() {
                 let finalHtml = baseContent;
                 json = JSON.parse(this.responseText);
                 let dict = {};
+                let consom = {};
                 json.allDevices.forEach(function(elem) {
                     if (!(elem.roomName in dict)) {
                         dict[elem.roomName] = elem.isOn;
+                        consom[elem.roomName] = elem.consumption[0].value;
                     }
-                    else if (elem.isOn) {
-                        dict[elem.roomName] = true;
+                    else {
+                        if (elem.isOn) {
+                            dict[elem.roomName] = true;
+                        }
+                        consom[elem.roomName] += elem.consumption[0].value;
                     }
                 });
                 for (var key in dict) {
                     finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
-                        + '</nav></td><td><nav>0</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
+                        + '</nav></td><td><nav>' + consom[key] / 1000
+                        + ' kWh</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
                 }
                 document.getElementById("tableContent").innerHTML = finalHtml;
 
                 if (current !== null) {
                     getDetails(current);
                 }
+
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawGraphs);
             } else {
                 window.location.replace("http://hec.zirk.eu/");
             }
@@ -47,17 +56,17 @@ function update() {
 update();
 window.setInterval(update, 60000); // 1 minute
 
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawGraphs);
-
 function getDetails(roomName) {
     current = roomName;
     let finalHtml = "";
     json.allDevices.forEach(function(elem) {
         if (elem.roomName == roomName) {
+            tomorrowVal = elem.consumption[1]; // If it's the first day launching the app, will be undefined
             finalHtml += '<tr id="contentLine"><td id="left"><nav>' + elem.type + '</nav></td><td><nav>' + elem.name
                 + '</nav></td><td><nav>' + (elem.isOn ? "Active" : "Inactive")
-                + '</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">Action</button></td></tr>';
+                + '</nav></td><td><nav>' + elem.consumption[0].value / 1000
+                + ' kWh</nav></td><td id="right"><nav>' + (typeof lastname === "undefined" ? 0 : elem.consumption[1].value / 1000)
+                + ' kWh</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">Action</button></td></tr>';
         }
     });
     document.getElementById("tableDetails").innerHTML = baseInner + finalHtml;
@@ -85,16 +94,26 @@ function drawGraphs() {
         title: ''
     };
 
-    let data = google.visualization.arrayToDataTable([
-        ['Data1', 'Data2'],
-        ['Element1', 45],
-        ['Element2', 75],
-        ['Element3', 42],
-        ['Element4', 34],
-        ['Element5', 8]
-    ]);
+    let finalData = [["Type", "Value"]];
+    let categories = [];
+    json.allDevices.forEach(function(elem) {
+        if (!categories.includes(elem.type)) {
+            categories.push(elem.type);
+        }
+    });
+    categories.forEach(function(elem) {
+        let value = 0;
+        json.allDevices.forEach(function(elem2) {
+            if (elem == elem2.type) {
+                value += elem2.consumption[0].value;
+            }
+        });
+        finalData.push([elem, value]);
+    });
 
-    options.title = 'Sample Pie Chart';
+    let data = google.visualization.arrayToDataTable(finalData);
+
+    options.title = 'Breakdown of energy consumption';
     let chart = new google.visualization.PieChart(document.getElementById('consumptionBreakdownGraph'));
     chart.draw(data, options);
 

@@ -24,9 +24,14 @@ namespace Backend.Device
         public void IncreaseConsumption(string dateStr)
         {
             if (!_consumption.ContainsKey(dateStr))
-                _consumption.Add(dateStr, _power);
-            else
-                _consumption[dateStr] = _power;
+            {
+                if (_isOn)
+                    _consumption.Add(dateStr, _power);
+                else
+                    _consumption.Add(dateStr, 0);
+            }
+            else if (_isOn)
+                _consumption[dateStr] += _power;
         }
 
         public object ToJson()
