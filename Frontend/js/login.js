@@ -28,7 +28,11 @@ function login() {
                     minute = '0' + minute;
                 if(second.toString().length == 1)
                     second = '0' + second;
-                document.getElementById("reply").innerHTML = hour + ":" + minute + ":" + second + ": Username and password doesn't match.";
+                if (this.status === 401) {
+                    document.getElementById("reply").innerHTML = hour + ":" + minute + ":" + second + ": Username and password doesn't match.";
+                } else {
+                    document.getElementById("reply").innerHTML = hour + ":" + minute + ":" + second + ": The server isn't available, please retry later.";
+                }
             }
         }
     });
