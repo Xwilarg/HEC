@@ -78,7 +78,13 @@ namespace Backend
                     continue;
                 Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({(?s).*)");
                 dynamic j2 = JsonConvert.DeserializeObject(m.Groups[2].Value);
-                allDevices.Add(new Device.Device(m.Groups[1].Value, (bool)j2.isOn, (int)j2.power, (string)j2.type, (string)j2.name, (string)j2.roomName, new Dictionary<string, int>()));
+                Dictionary<string, int> dict = new Dictionary<string, int>();
+                foreach (dynamic elem in j2.consumption)
+                {
+                    var groups = Regex.Match(elem.ToString(), "\"([0-9]+)\": ([0-9]+)").Groups;
+                    dict.Add(groups[1].Value, int.Parse(groups[2].Value));
+                }
+                allDevices.Add(new Device.Device(m.Groups[1].Value, (bool)j2.isOn, (int)j2.power, (string)j2.type, (string)j2.name, (string)j2.roomName, dict));
             }
             return allDevices.ToArray();
         }

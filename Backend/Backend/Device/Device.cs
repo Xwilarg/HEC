@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Device
 {
@@ -29,14 +30,19 @@ namespace Backend.Device
                     _consumption.Add(dateStr, _power);
                 else
                     _consumption.Add(dateStr, 0);
+                Program.p.db.UpdateDevice(this);
             }
             else if (_isOn)
+            {
                 _consumption[dateStr] += _power;
+                Program.p.db.UpdateDevice(this);
+            }
         }
 
         public object ToJson()
         {
-            return JsonConvert.DeserializeObject("{\"roomName\":\"" + _roomName + "\",\"type\":\"" + _type + "\",\"name\":\"" + _name + "\",\"isOn\":" + _isOn.ToString().ToLower() + ",\"power\":" + _power + ",\"consumption\":{}}");
+            return JsonConvert.DeserializeObject("{\"roomName\":\"" + _roomName + "\",\"type\":\"" + _type + "\",\"name\":\"" + _name + "\",\"isOn\":" + _isOn.ToString().ToLower() + ",\"power\":" + _power + ",\"consumption\":[{" +
+                string.Join("},{", _consumption.Select(x => "\"" + x.Key + "\":" + x.Value)) + "}]}");
         }
 
         public Response.Device ToResponse()
