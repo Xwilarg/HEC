@@ -29,6 +29,11 @@ namespace Backend
                     .With("3", jsonDevice4)
                     .With("4", jsonDevice5)
                     .With("5", jsonDevice6)
+                    .With("6", jsonDevice7)
+                    .With("7", jsonDevice8)
+                    .With("8", jsonDevice9)
+                    .With("9", jsonDevice10)
+                    .With("10", jsonDevice11)
                     ).RunAsync(conn);
             }
             if (!await R.Db(dbName).TableList().Contains("Users").RunAsync<bool>(conn))
@@ -99,11 +104,16 @@ namespace Backend
 
         private readonly static string dbName = "HEC";
         // We create sample devices for the demo
-        private readonly static object jsonDevice1 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"lighting\",\"name\":\"Lamp\",\"isOn\":false,\"power\":14,\"consumption\":{}}");
-        private readonly static object jsonDevice2 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"lighting\",\"name\":\"Lamp\",\"isOn\":true,\"power\":20,\"consumption\":{}}");
-        private readonly static object jsonDevice3 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"it\",\"name\":\"Computer\",\"isOn\":true,\"power\":40,\"consumption\":{}}");
-        private readonly static object jsonDevice4 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"heating\",\"name\":\"Heater\",\"isOn\":true,\"power\":30,\"consumption\":{}}");
-        private readonly static object jsonDevice5 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 2\",\"type\":\"lighting\",\"name\":\"Lamp\",\"isOn\":false,\"power\":14,\"consumption\":{}}");
-        private readonly static object jsonDevice6 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 2\",\"type\":\"it\",\"name\":\"Computer\",\"isOn\":true,\"power\":25,\"consumption\":{}}");
+        private readonly static object jsonDevice1 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"Lighting\",\"name\":\"Lamp\",\"isOn\":false,\"power\":14,\"consumption\":{}}");
+        private readonly static object jsonDevice2 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"Lighting\",\"name\":\"Lamp\",\"isOn\":true,\"power\":20,\"consumption\":{}}");
+        private readonly static object jsonDevice3 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"IT\",\"name\":\"Computer\",\"isOn\":true,\"power\":40,\"consumption\":{}}");
+        private readonly static object jsonDevice4 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 1\",\"type\":\"Heating\",\"name\":\"Heater\",\"isOn\":true,\"power\":30,\"consumption\":{}}");
+        private readonly static object jsonDevice5 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 2\",\"type\":\"Lighting\",\"name\":\"Lamp\",\"isOn\":false,\"power\":14,\"consumption\":{}}");
+        private readonly static object jsonDevice6 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 2\",\"type\":\"IT\",\"name\":\"Computer\",\"isOn\":true,\"power\":25,\"consumption\":{}}");
+        private readonly static object jsonDevice7 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 3\",\"type\":\"IT\",\"name\":\"Computer\",\"isOn\":true,\"power\":24,\"consumption\":{}}");
+        private readonly static object jsonDevice8 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 3\",\"type\":\"Air Conditioning\",\"name\":\"Air Conditioning\",\"isOn\":true,\"power\":35,\"consumption\":{}}");
+        private readonly static object jsonDevice9 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 3\",\"type\":\"IT\",\"name\":\"Computer\",\"isOn\":true,\"power\":19,\"consumption\":{}}");
+        private readonly static object jsonDevice10 = JsonConvert.DeserializeObject("{\"roomName\":\"Office 4\",\"type\":\"IT\",\"name\":\"Computer\",\"isOn\":true,\"power\":23,\"consumption\":{}}");
+        private readonly static object jsonDevice11 = JsonConvert.DeserializeObject("{\"roomName\":\"Beta Test Room\",\"type\":\"Heating\",\"name\":\"Nuclear Powered Heater\",\"isOn\":false,\"power\":500000,\"consumption\":{}}");
     }
 }
