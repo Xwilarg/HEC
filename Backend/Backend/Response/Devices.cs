@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Backend.Response
 {
@@ -21,6 +22,9 @@ namespace Backend.Response
 
         [JsonProperty]
         public string Id;
+
+        [JsonProperty]
+        public Dictionary<string, int> Consumption;
     }
 
     public class Devices

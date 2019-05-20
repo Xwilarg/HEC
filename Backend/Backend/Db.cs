@@ -78,7 +78,7 @@ namespace Backend
                     continue;
                 Match m = Regex.Match(e.ToString(), "\"([^\"]+)\": ({(?s).*)");
                 dynamic j2 = JsonConvert.DeserializeObject(m.Groups[2].Value);
-                allDevices.Add(new Device.Device((string)m.Groups[1].Value, (bool)j2.isOn, (int)j2.power, (string)j2.type, (string)j2.name, (string)j2.roomName));
+                allDevices.Add(new Device.Device(m.Groups[1].Value, (bool)j2.isOn, (int)j2.power, (string)j2.type, (string)j2.name, (string)j2.roomName, new Dictionary<string, int>()));
             }
             return allDevices.ToArray();
         }

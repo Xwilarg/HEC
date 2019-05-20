@@ -45,6 +45,7 @@ function update() {
 }
 
 update();
+window.setInterval(update, 60000); // 1 minute
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawGraphs);

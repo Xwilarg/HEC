@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 
 namespace Backend.Device
@@ -7,14 +8,18 @@ namespace Backend.Device
     {
         public DeviceManager()
         {
-            thread = new Thread(new ThreadStart(ConsumptionThread));
             devices = Program.p.db.GetDevices();
+            thread = new Thread(new ThreadStart(ConsumptionThread));
+            thread.Start();
         }
 
         private void ConsumptionThread()
         {
             while (Thread.CurrentThread.IsAlive)
             {
+                string dateStr = DateTime.Now.ToString("yyMMdd");
+                foreach (Device d in devices)
+                    d.IncreaseConsumption(dateStr);
                 Thread.Sleep(60000); // 1 minute
             }
         }
