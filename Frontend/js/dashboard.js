@@ -21,13 +21,13 @@ function update() {
                 json.allDevices.forEach(function(elem) {
                     if (!(elem.roomName in dict)) {
                         dict[elem.roomName] = elem.isOn;
-                        consom[elem.roomName] = elem.consumption[0].value;
+                        consom[elem.roomName] = elem.consumption[elem.consumption.length - 1].value;
                     }
                     else {
                         if (elem.isOn) {
                             dict[elem.roomName] = true;
                         }
-                        consom[elem.roomName] += elem.consumption[0].value;
+                        consom[elem.roomName] += elem.consumption[elem.consumption.length - 1].value;
                     }
                 });
                 for (var key in dict) {
@@ -61,11 +61,10 @@ function getDetails(roomName) {
     let finalHtml = "";
     json.allDevices.forEach(function(elem) {
         if (elem.roomName == roomName) {
-            tomorrowVal = elem.consumption[1]; // If it's the first day launching the app, will be undefined
             finalHtml += '<tr id="contentLine"><td id="left"><nav>' + elem.type + '</nav></td><td><nav>' + elem.name
                 + '</nav></td><td><nav>' + (elem.isOn ? "Active" : "Inactive")
-                + '</nav></td><td><nav>' + elem.consumption[0].value / 1000
-                + ' kWh</nav></td><td id="right"><nav>' + (typeof lastname === "undefined" ? 0 : elem.consumption[1].value / 1000)
+                + '</nav></td><td><nav>' + elem.consumption[elem.consumption.length - 1].value / 1000
+                + ' kWh</nav></td><td id="right"><nav>' + (elem.consumption.length == 1 ? 0 : elem.consumption[elem.consumption.length - 2].value / 1000)
                 + ' kWh</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">Action</button></td></tr>';
         }
     });
@@ -105,7 +104,7 @@ function drawGraphs() {
         let value = 0;
         json.allDevices.forEach(function(elem2) {
             if (elem == elem2.type) {
-                value += elem2.consumption[0].value;
+                value += elem2.consumption[elem2.consumption.length - 1].value;
             }
         });
         finalData.push([elem, value]);
