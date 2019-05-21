@@ -18,22 +18,30 @@ function update() {
                 json = JSON.parse(this.responseText);
                 let dict = {};
                 let consom = {};
+                let oldConsom = {};
                 json.allDevices.forEach(function(elem) {
                     if (!(elem.roomName in dict)) {
                         dict[elem.roomName] = elem.isOn;
                         consom[elem.roomName] = elem.consumption[elem.consumption.length - 1].value;
+                        if (elem.consumption.length > 1)
+                            oldConsom[elem.roomName] = elem.consumption[elem.consumption.length - 2].value;
+                        else
+                            oldConsom[elem.roomName] = 0;
                     }
                     else {
                         if (elem.isOn) {
                             dict[elem.roomName] = true;
                         }
                         consom[elem.roomName] += elem.consumption[elem.consumption.length - 1].value;
+                        if (elem.consumption.length > 1)
+                            oldConsom[elem.roomName] += elem.consumption[elem.consumption.length - 2].value;
                     }
                 });
                 for (var key in dict) {
                     finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
                         + '</nav></td><td><nav>' + consom[key] / 1000
-                        + ' kWh</nav></td><td><nav>0</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
+                        + ' kWh</nav></td><td><nav>' + oldConsom[key] / 1000
+                        + ' kWh</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
                 }
                 document.getElementById("tableContent").innerHTML = finalHtml;
 
