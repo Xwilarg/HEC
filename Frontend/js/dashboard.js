@@ -146,21 +146,20 @@ function drawGraphs() {
     chart = new google.visualization.ColumnChart(document.getElementById('comsumptionPerBuildingsGraph'));
     chart.draw(data, options);
 
-    data = google.visualization.arrayToDataTable([
-        ["Data1", 'Data2'],
-        ["Element1", 8],
-        ["Element2", 5],
-        ["Element3", 12],
-        ["Element4", 6],
-        ["Element5", 8],
-        ["Element6", 3],
-        ["Element7", 15],
-        ["Element8", 9],
-        ["Element9", 10],
-        ["Element10", 7]
-    ]);
+    finalData = [["Type", "Value"]];
+    for (let i = 10; i >= 1; i--) {
+        let value = 0;
+        json.allDevices.forEach(function(elem) {
+            if (elem.consumption.length >= i) {
+                value += elem.consumption[elem.consumption.length - i].value;
+            }
+        });
+        finalData.push(["D - " + (i - 1), value / 1000]);
+    }
 
-    options.title = 'Sample Line Chart';
+    data = google.visualization.arrayToDataTable(finalData);
+
+    options.title = 'Energy consumption per day (kWh)';
     chart = new google.visualization.LineChart(document.getElementById('comsumptionPerHoursGraph'));
     chart.draw(data, options);
 }
