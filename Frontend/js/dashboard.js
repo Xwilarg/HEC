@@ -124,7 +124,7 @@ function drawGraphs() {
     let chart = new google.visualization.PieChart(document.getElementById('consumptionBreakdownGraph'));
     chart.draw(data, options);
 
-    finalData = [["Type", "Value"]];
+    finalData = [["Type", "Energy"]];
     categories = [];
     json.allDevices.forEach(function(elem) {
         if (!categories.includes(elem.roomName)) {
@@ -146,7 +146,7 @@ function drawGraphs() {
     chart = new google.visualization.ColumnChart(document.getElementById('comsumptionPerBuildingsGraph'));
     chart.draw(data, options);
 
-    finalData = [["Type", "Value"]];
+    finalData = [["Type", "Energy"]];
     for (let i = 10; i >= 1; i--) {
         let value = 0;
         json.allDevices.forEach(function(elem) {
