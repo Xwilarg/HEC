@@ -115,24 +115,34 @@ function drawGraphs() {
                 value += elem2.consumption[elem2.consumption.length - 1].value;
             }
         });
-        finalData.push([elem, value]);
+        finalData.push([elem, value / 1000]);
     });
 
     let data = google.visualization.arrayToDataTable(finalData);
 
-    options.title = 'Breakdown of energy consumption';
+    options.title = 'Breakdown of energy consumption (kWh)';
     let chart = new google.visualization.PieChart(document.getElementById('consumptionBreakdownGraph'));
     chart.draw(data, options);
 
-    data = google.visualization.arrayToDataTable([
-        ["Data1", 'Data2'],
-        ["Element1", 43],
-        ["Element2", 25],
-        ["Element3", 52],
-        ["Element4", 12]
-    ]);
+    finalData = [["Type", "Value"]];
+    categories = [];
+    json.allDevices.forEach(function(elem) {
+        if (!categories.includes(elem.roomName)) {
+            categories.push(elem.roomName);
+        }
+    });
+    categories.forEach(function(elem) {
+        let value = 0;
+        json.allDevices.forEach(function(elem2) {
+            if (elem == elem2.roomName) {
+                value += elem2.consumption[elem2.consumption.length - 1].value;
+            }
+        });
+        finalData.push([elem, value / 1000]);
+    });
+    data = google.visualization.arrayToDataTable(finalData);
 
-    options.title = 'Sample Column Chart';
+    options.title = 'Energy consumption per room (kWh)';
     chart = new google.visualization.ColumnChart(document.getElementById('comsumptionPerBuildingsGraph'));
     chart.draw(data, options);
 
