@@ -27,7 +27,6 @@
 
 #mainGraphs table {
     width: 100%;
-    margin-top: 200px;
     table-layout: fixed;
 }
 
@@ -104,4 +103,14 @@
     font-size: 20px;
     margin: 10px;
     border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+
+html {
+    font-family: 'Open Sans', sans-serif;
 }
