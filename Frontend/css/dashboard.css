@@ -32,6 +32,7 @@
 
 #mainGraphs td {
     width: 33%;
+    text-align: center;
 }
 
 #mainGraphs nav {
@@ -66,6 +67,7 @@
     padding-left: 10px;
     padding-right: 10px;
     border-bottom: 20px solid #eee;
+    text-align: center;
 }
 
 #lowerPart nav {
@@ -122,4 +124,12 @@ span img {
     z-index: 1;
     position: relative;
     margin-top: -15px;
+}
+
+#red {
+    background-color: #ff9999 !important;
+}
+
+#green {
+    background-color: #99ff99 !important;
 }

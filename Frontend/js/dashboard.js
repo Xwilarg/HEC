@@ -38,7 +38,7 @@ function update() {
                     }
                 });
                 for (var key in dict) {
-                    finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
+                    finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav id="' + (dict[key] ? 'green">Active' : 'red">Inactive')
                         + '</nav></td><td><nav>' + consom[key] / 1000
                         + ' kWh</nav></td><td><nav>' + oldConsom[key] / 1000
                         + ' kWh</nav></td><td id="right"><nav>' + (oldConsom[key] === 0 ? 0 : Number(consom[key] / oldConsom[key] * consom[key] / 1000).toFixed(3))
@@ -71,7 +71,7 @@ function getDetails(roomName) {
     json.allDevices.forEach(function(elem) {
         if (elem.roomName == roomName) {
             finalHtml += '<tr id="contentLine"><td id="left"><nav>' + elem.type + '</nav></td><td><nav>' + elem.name
-                + '</nav></td><td><nav>' + (elem.isOn ? "Active" : "Inactive")
+                + '</nav></td><td><nav id="' + (elem.isOn ? 'green">Active' : 'red">Inactive')
                 + '</nav></td><td><nav>' + elem.consumption[elem.consumption.length - 1].value / 1000
                 + ' kWh</nav></td><td id="right"><nav>' + (elem.consumption.length == 1 ? 0 : elem.consumption[elem.consumption.length - 2].value / 1000)
                 + ' kWh</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">Action</button></td></tr>';
