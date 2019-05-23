@@ -41,7 +41,8 @@ function update() {
                     finalHtml += '<tr id="contentLine"><td id="left"><nav>' + key + '</nav></td><td><nav>' + (dict[key] ? "Active" : "Inactive")
                         + '</nav></td><td><nav>' + consom[key] / 1000
                         + ' kWh</nav></td><td><nav>' + oldConsom[key] / 1000
-                        + ' kWh</nav></td><td id="right"><nav>0</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
+                        + ' kWh</nav></td><td id="right"><nav>' + (oldConsom[key] === 0 ? 0 : Number(consom[key] / oldConsom[key] * consom[key] / 1000).toFixed(3))
+                        + ' kWh</nav></td><td><button class="button" onclick="getDetails(\'' + key + '\')">More details</button></td></tr>';
                 }
                 document.getElementById("tableContent").innerHTML = finalHtml;
 
