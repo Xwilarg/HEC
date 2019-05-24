@@ -74,7 +74,8 @@ function getDetails(roomName) {
                 + '</nav></td><td><nav id="' + (elem.isOn ? 'green">Active' : 'red">Inactive')
                 + '</nav></td><td><nav>' + elem.consumption[elem.consumption.length - 1].value / 1000
                 + ' kWh</nav></td><td id="right"><nav>' + (elem.consumption.length == 1 ? 0 : elem.consumption[elem.consumption.length - 2].value / 1000)
-                + ' kWh</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">Action</button></td></tr>';
+                + ' kWh</nav></td><td><button class="button" onclick="switchState(\'' + elem.id + '\', \'' + !elem.isOn + '\')">' + (elem.isOn ? 'Switch Off' : 'Switch On')
+                + '</button></td></tr>';
         }
     });
     document.getElementById("tableDetails").innerHTML = baseInner + finalHtml;
